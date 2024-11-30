@@ -1,22 +1,43 @@
 {
-    "posts": [
+    "players": [
       { 
         "id": "1", 
         "title": "Messi", 
-        "views": 100,
-        "tags" : ["barca", "chelsea"]
+        "tags" : ["barca", "psg", "inter miami"]
+      },
+            { 
+        "id": "1", 
+        "title": "Hazard", 
+        "tags" : ["chelsea", "real madrid"]
       },
       { 
-        "id": "2", 
-        "title": "CR7", 
-        "views": 200,
-        "tags": ["real madrid"]
+        "id": "1", 
+        "title": "Neymar", 
+        "tags" : ["barca", "psg"]
+      },
+      { 
+        "id": "1", 
+        "title": "Haaland", 
+        "tags" : ["machester city"]
+      },
+      { 
+        "id": "1", 
+        "title": "Rodri", 
+        "tags" : ["altetico madrid", "machester city"]
+      },
+      { 
+        "id": "1", 
+        "title": "Vinicius", 
+        "tags" : ["real madrid"]
       }
     ],
     "tags": [
       "barca",
       "real madrid",
       "chelsea",
-      "leicester"
+      "inter miami",
+      "psg",
+      "altetico madrid",
+      "machester city"
     ]
 }
