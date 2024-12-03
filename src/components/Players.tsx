@@ -81,7 +81,7 @@ function Player() {
               Add
             </button>
         </form>
-        {isLoading && isPending && <div className="px-4 py-2 border border-gray-100 rounded bg-gray-200 text-gray-400 my-1">Loading...</div>}
+        {isLoading || isPending && <div className="px-4 py-2 border border-gray-100 rounded bg-gray-200 text-gray-400 my-1">Loading...</div>}
         {isError && <div className="px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">{error?.message}</div>}
         {isAddError && <div onClick={() => reset()} className="cursor-pointer px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">Unable to post</div>}
         <div className="text-3xl font-bold my-4" >PLAYERS</div>
