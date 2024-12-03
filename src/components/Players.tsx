@@ -3,7 +3,8 @@ import { useState } from "react"
 import { addPlayer, fetchPlayers, fetchTags } from "../api/api";
 
 function Player() {
-  const [credentials,setCredentials] = useState<any>({ title: '', tags: [] })
+  const [credentials,setCredentials] = useState<any>({ id: 0, title: '', tags: [] });
+  const queryClient = useQueryClient();
 
   const { data: players, error, isLoading, isError } = useQuery({
     queryKey: ["players"],
@@ -17,7 +18,6 @@ function Player() {
     staleTime: Infinity
   })
 
-  const queryClient = useQueryClient();
 
   const {
     mutate,
@@ -39,7 +39,6 @@ function Player() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(credentials);
 
     if(!credentials) return
     mutate(credentials);
@@ -49,13 +48,11 @@ function Player() {
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
-    console.log(e.target.value)
-    setCredentials((prev: any) => ({...prev, [name]: value}));
+    setCredentials((prev: any) => ({...prev, [name]: value, id: players.length + 1}));
   }
 
   const onSelectChange = (e: any) => {
-    setCredentials((prev: any) => ({...prev, tags: [e.target.name]}))
-    console.log(credentials);
+    credentials.tags.push(e.target.name);
   }
 
   return (

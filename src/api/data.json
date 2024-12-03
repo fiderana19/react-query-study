@@ -1,46 +1,19 @@
 {
   "players": [
     {
+      "id": 1,
       "title": "Messi",
       "tags": [
-        "barca",
-        "psg",
-        "inter miami"
-      ]
-    },
-    {
-      "title": "Hazard",
-      "tags": [
-        "chelsea",
-        "real madrid"
-      ]
-    },
-    {
-      "id": "3e5e",
-      "title": "Mata",
-      "tags": [
-        "chelsea"
-      ]
-    },
-    {
-      "id": "0d4d",
-      "title": "Suarez",
-      "tags": [
-        "inter miami"
-      ]
-    },
-    {
-      "id": "d724",
-      "title": "Busquets",
-      "tags": [
+        "inter miami",
         "barca"
       ]
     },
     {
-      "id": "c754",
-      "title": "Vinicius",
+      "id": 2,
+      "title": "Hazard",
       "tags": [
-        "real madrid"
+        "real madrid",
+        "chelsea"
       ]
     }
   ],
