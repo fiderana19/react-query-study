@@ -1,17 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { addPlayer, fetchPlayers, fetchTags } from "../api/api"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react"
+import { addPlayer, fetchPlayers, fetchTags } from "../api/api";
 
 function Player() {
   const [credentials,setCredentials] = useState<any>({ title: '', tags: [] })
 
-  const { data: players, isLoading, isError, error } = useQuery({
+  const { data: players, error, isLoading, isError } = useQuery({
     queryKey: ["players"],
     queryFn: fetchPlayers,
     staleTime: Infinity
   })
 
-  const { data: tags } = useQuery({
+  const { data: tags  } = useQuery({
     queryKey: ["tags"],
     queryFn: fetchTags,
     staleTime: Infinity
@@ -19,15 +19,14 @@ function Player() {
 
   const queryClient = useQueryClient();
 
-  const { 
+  const {
     mutate,
-    isError: isAddError, 
-    isPending, 
-    error: addPlayerError,
+    isPending,
+    isError: isAddError,
     reset
-  }  = useMutation({
+  } = useMutation({
     mutationFn: addPlayer,
-    onMutate() {
+    onMutate(variables) {
       return {id: 1}
     },
     onSuccess(data, variables, context) {

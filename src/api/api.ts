@@ -13,7 +13,7 @@ export const fetchTags = async () => {
 };
 
 export const addPlayer = async (player: any) => {
-    const response = await fetch(`http://lsocalhost:3000/players`, {
+    const response = await fetch(`http://localhost:3000/players`, {
         method: "POST",
         headers: {
             "Content-type": "application/json"
