@@ -87,7 +87,7 @@ function Player() {
         </form>
         {isLoading && isPending && <div className="px-4 py-2 border border-gray-100 rounded bg-gray-200 text-gray-400 my-1">Loading...</div>}
         {isError && <div className="px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">{error?.message}</div>}
-        {isAddError && <div className="px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">{addPlayerError?.message}</div>}
+        {isAddError && <div onClick={() => reset()} className="cursor-pointer px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">Unable to post</div>}
         <div className="text-3xl font-bold my-4" >PLAYERS</div>
         {players?.map((player: any, index: any) => {
           return <div key={index} className="border border-gray-400 rounded px-4 py-2 bg-gray-100 bg-opacity-60 my-1 flex gap-2 justify-between">
