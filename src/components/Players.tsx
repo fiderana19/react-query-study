@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { addPlayer, fetchPlayers, fetchTags } from "../api/api"
 import { useState } from "react"
 
@@ -14,7 +14,10 @@ function Player() {
   const { data: tags } = useQuery({
     queryKey: ["tags"],
     queryFn: fetchTags,
+    staleTime: Infinity
   })
+
+  const queryClient = useQueryClient();
 
   const { 
     mutate,
@@ -27,12 +30,19 @@ function Player() {
     onMutate() {
       return {id: 1}
     },
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        queryKey: ["players"],
+        exact: true,
+      })
+    },
   })
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log(credentials);
 
+    if(!credentials) return
     mutate(credentials);
     setCredentials({title: '', tags: []})
     e.target.reset();
@@ -46,11 +56,12 @@ function Player() {
 
   const onSelectChange = (e: any) => {
     setCredentials((prev: any) => ({...prev, tags: [e.target.name]}))
+    console.log(credentials);
   }
 
   return (
       <div className="mx-auto">
-        <form onSubmit={handleSubmit} className="rounded border p-2 bg-gray-100">
+        <form onSubmit={handleSubmit} className="rounded mt-20 border p-2 bg-gray-100">
             <div className="text-xl font-bold my-1" >New player</div>
             <input 
               value={credentials.title}
@@ -74,8 +85,9 @@ function Player() {
               Add
             </button>
         </form>
-        {isLoading && <div className="px-4 py-2 border border-gray-100 rounded bg-gray-200 text-gray-400 my-1">Loading...</div>}
+        {isLoading && isPending && <div className="px-4 py-2 border border-gray-100 rounded bg-gray-200 text-gray-400 my-1">Loading...</div>}
         {isError && <div className="px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">{error?.message}</div>}
+        {isAddError && <div className="px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">{addPlayerError?.message}</div>}
         <div className="text-3xl font-bold my-4" >PLAYERS</div>
         {players?.map((player: any, index: any) => {
           return <div key={index} className="border border-gray-400 rounded px-4 py-2 bg-gray-100 bg-opacity-60 my-1 flex gap-2 justify-between">
