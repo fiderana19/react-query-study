@@ -1,9 +1,10 @@
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { useDeletePlayer } from "../hooks/useDeletePlayer";
 import { useGetPlayers } from "../hooks/useGetPlayers";
 import AddPlayer from "./AddPlayer";
 import '../../node_modules/react-toastify/dist/ReactToastify.css';
 import '../../node_modules/react-toastify/dist/ReactToastify.min.css';
+
 
 function Player() {
   const {data: players, loading} = useGetPlayers();
@@ -11,24 +12,11 @@ function Player() {
 
   const handleDelete = async (id: string) => {
     deletePlayer(id);
-    toast("Mlay eh" , {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce
-    });
   }
 
   return (
       <div>
         <div className="flex justify-between w-full px-10">
-          <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" transition={Bounce} />
-          <ToastContainer />
           <div className="w-2/3">
             <div className="font-bold text-2xl my-4">PLAYER LIST</div>
             <div className="grid grid-cols-customized gap-2 w-full justify-center">
@@ -41,6 +29,7 @@ function Player() {
                       </div>
               })}
             </div>
+            <ToastContainer />
             {players && players.length < 1 && <div className="">No player yet</div> }
             {loading && <div className="">Loading...</div>}
           </div>
