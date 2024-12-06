@@ -14,7 +14,7 @@ export const getAllPlayers = async () => {
 export const addPlayer = async (user: any) => {
     const response = await axios({
         method: 'POST',
-        url: UserAPIURL,
+        url: `${UserAPIURL}/create`,
         data: user,
     })
         
@@ -24,7 +24,7 @@ export const addPlayer = async (user: any) => {
 export const deletePlayer = async (id: string) => {
     const response = await axios({
         method: 'DELETE',
-        url: `${UserAPIURL}/${id}`,
+        url: `${UserAPIURL}/delete/${id}`,
     })
   
     return response;
