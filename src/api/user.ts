@@ -1,21 +1,32 @@
 import axios from "axios";
 
-const UserAPIURL = "http://localhost:3001/user";
+const UserAPIURL = "http://localhost:3001/player";
 
-export const fetchUser = async () => {
-        const response = await axios({
-            method: 'GET',
-            url: UserAPIURL,
-        })
-        return response;
+export const getAllPlayers = async () => {
+    const response = await axios({
+        method: 'GET',
+        url: `${UserAPIURL}/all`,
+    })
+
+    return response.data;
 }
 
-export const addUser = async (user: any) => {
-        const response = await axios({
-            method: 'POST',
-            url: UserAPIURL,
-            data: user,
-        })
+export const addPlayer = async (user: any) => {
+    const response = await axios({
+        method: 'POST',
+        url: UserAPIURL,
+        data: user,
+    })
         
-        return response;
+    return response;
 }
+
+export const deletePlayer = async (id: string) => {
+    const response = await axios({
+        method: 'DELETE',
+        url: `${UserAPIURL}/${id}`,
+    })
+  
+    return response;
+}
+

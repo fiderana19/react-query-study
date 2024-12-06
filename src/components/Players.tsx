@@ -1,102 +1,56 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react"
-import { addPlayer, fetchPlayers, fetchTags } from "../api/api";
+import React, { useState } from "react"
+import { CreatePlayerDto } from "../dto/create-player.dto";
 
 function Player() {
-  const [credentials,setCredentials] = useState<any>({ id: 0, title: '', tags: [] });
-  const queryClient = useQueryClient();
+  const [credentials,setCredentials] = useState<CreatePlayerDto>({ nom: '', club: '', shirt: 0});
 
-  const { data: players, error, isLoading, isError } = useQuery({
-    queryKey: ["players"],
-    queryFn: fetchPlayers,
-    staleTime: Infinity
-  })
-
-  const { data: tags  } = useQuery({
-    queryKey: ["tags"],
-    queryFn: fetchTags,
-    staleTime: Infinity
-  })
-
-
-  const {
-    mutate,
-    isPending,
-    isError: isAddError,
-    reset
-  } = useMutation({
-    mutationFn: addPlayer,
-    onMutate(variables) {
-      return {id: 1}
-    },
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries({
-        queryKey: ["players"],
-        exact: true,
-      })
-    },
-  })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials((prev: any) => {
+      return {...prev, [name]: value}
+    })
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-
-    if(!credentials) return
-    mutate(credentials);
-    setCredentials({title: '', tags: []})
-    e.target.reset();
-  }
-
-  const onChange = (e: any) => {
-    const { name, value } = e.target;
-    setCredentials((prev: any) => ({...prev, [name]: value, id: players.length + 1}));
-  }
-
-  const onSelectChange = (e: any) => {
-    credentials.tags.push(e.target.name);
+    console.log(credentials)
   }
 
   return (
-      <div className="mx-auto">
-        <form onSubmit={handleSubmit} className="rounded mt-20 border p-2 bg-gray-100">
-            <div className="text-xl font-bold my-1" >New player</div>
-            <input 
-              value={credentials.title}
-              onChange={onChange}
-              name="title"
-              type="text" 
-              className="bg-transparent border rounded px-4 py-1 mb-4" 
-              placeholder="Type the player name..." />
-            <div className="flex gap-1 my-1">
-              {tags?.map((tag: any) => {
-                return <div key={tag} className="rounded-full border border-gray-100 bg-gray-300 px-2 py-0.5 text-xs text-gray-900 flex gap-1 items-center">
-                            <input onChange={onSelectChange} type="checkbox" name={tag} id={tag} />
-                            <label htmlFor={tag}>#{tag}</label>
-                        </div>
-              })}
-            </div>
-            <button 
-              className="rounded border border-green-400 bg-green-600 hover:bg-green-700 transition-colors text-white px-4 py-1.5 w-1/3 mt-4"
-              type="submit"
-            >
-              Add
-            </button>
-        </form>
-        {isLoading || isPending && <div className="px-4 py-2 border border-gray-100 rounded bg-gray-200 text-gray-400 my-1">Loading...</div>}
-        {isError && <div className="px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">{error?.message}</div>}
-        {isAddError && <div onClick={() => reset()} className="cursor-pointer px-4 py-2 border border-red-100 rounded bg-red-200 text-red-400 my-1">Unable to post</div>}
-        <div className="text-3xl font-bold my-4" >PLAYERS</div>
-        {players?.map((player: any, index: any) => {
-          return <div key={index} className="border border-gray-400 rounded px-4 py-2 bg-gray-100 bg-opacity-60 my-1 flex gap-2 justify-between">
-            <div className="font-bold">{player.title}</div>
-            <div className="flex gap-1">
-              {player.tags.map((tag: any) => {
-                return <div key={tag} className="rounded-full border border-gray-100 bg-gray-300 px-2 py-0.5 text-xs text-gray-900">
-                    #{tag}
-                  </div>
-              })}
+      <div>
+        <div className="flex justify-between w-full px-10">
+          <div className="w-2/3">
+            <div className="font-bold text-2xl my-4">PLAYER LIST</div>
+            <div className="grid grid-cols-customized gap-2 w-full justify-center">
+              <div className="bg-gray-100 rounded px-4 pt-10 pb-1 w-60 relative">
+                <div className="text-5xl font-bold text-right text-gray-500">11</div>
+                <div className="font-semibold">Player name</div>
+                <div className="font-bold text-teal-600">Club name</div>
+                <button className="border border-red-500 bg-red-400 px-2 py-1 hover:bg-red-500 transition-colors text-red-700 text-xs absolute top-2 right-2 rounded">X</button>
+              </div>
             </div>
           </div>
-        })}
+          <div>
+            <div className="bg-gray-100 border border-gray-200 shadow-md mx-auto p-4 rounded">
+              <div className="text-xl font-bold">New Player</div>
+              <div className="w-60 my-1">
+                <div className="text-left text-xs font-bold">Player name : </div>
+                <input type="text" onChange={handleChange} name="nom" className="w-full bg-transparent border px-2 py-1 border-gray-500 rounded" placeholder="Player name..." />
+              </div>
+              <div className="w-60 my-1">
+                <div className="text-left text-xs font-bold">Club name : </div>
+                <input type="text" name="club" onChange={handleChange} className="w-full bg-transparent border px-2 py-1 border-gray-500 rounded" placeholder="Club name..." />
+              </div>
+              <div className="w-60 my-1">
+                <div className="text-left text-xs font-bold">Shirt number : </div>
+                <input type="text" name="shirt" onChange={handleChange} className="w-full bg-transparent border px-2 py-1 border-gray-500 rounded" placeholder="Shirt number..." />
+              </div>
+              <div className="w-60 mt-4">
+                <button onClick={handleSubmit} className="font-bold px-2 py-1 bg-green-500 w-full rounded text-white uppercase border border-green-600 transition-colors hover:bg-green-600">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
   )
 }
