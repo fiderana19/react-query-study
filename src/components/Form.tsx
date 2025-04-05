@@ -12,10 +12,10 @@ type FormValues = {
 }
 
 const schema = yup.object({
-  username: yup.string().min(3).required(),
-  email: yup.string().email().required(),
-  telephone: yup.string().min(9).required(),
-  password: yup.string().min(6).required(),
+  username: yup.string().required("Le champ username requis !"),
+  email: yup.string().email("Email invalide !").required("Le champ email requis !"),
+  telephone: yup.string().min(9, "Un numero de telephone doit comprendre 9 caracteres !").required("Le champ telephone requis !"),
+  password: yup.string().min(6, "Le mot de passe doit comprendre au moins 6 caracteres !").required("Le champ password requis !"),
 })
 
 function Form() {
